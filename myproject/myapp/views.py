@@ -14,6 +14,18 @@ topics = [
 
 def HTMLTemplate(articleTag, id=None): 
     global topics
+    contextUI = ''
+    
+    if id != None:
+        contextUI = f'''
+            <li>
+                <form action="/delete/" method="post">
+                    <input type="hidden" name="id" value={id}>
+                    <input type="submit" value="delete">
+                </form>
+            </li>
+        '''
+        
     ul = ''
     for topic in topics:
         ul += f'<li><a href="/read/{topic["id"]}">{topic["title"]}</a></li>'
@@ -29,12 +41,7 @@ def HTMLTemplate(articleTag, id=None):
                 
                 <ul>
                     <li><a href="/create/">Create</a></li>
-                    <li>
-                        <form action="/delete/" method="post">
-                            <input type="hidden" name="id" value={id}>
-                            <input type="submit" value="delete">
-                        </form>
-                    </li>
+                    {contextUI}
                 </ul>
             </body>
         </html>
