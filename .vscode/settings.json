@@ -1,0 +1,24 @@
+{
+    "python.defaultInterpreterPath": "C:\\Users\\kimda\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "git.autofetch": true,
+    "[html]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "git.enableSmartCommit": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+
+    // [python snippets settings]
+    "python.autoComplete.addBrackets": true,
+    "python.autoComplete.addColons": true,
+    "python.autoComplete.showAdvancedMembers": true,
+    "python.autoComplete.addArguments": true,
+    "python.autoComplete.addFunctionParantheses": true,
+    "python.analysis.extraPaths": [
+        "./my_snippets"
+    ],
+    "python.analysis.completeFunctionParens": true
+}
