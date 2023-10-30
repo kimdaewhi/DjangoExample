@@ -98,3 +98,18 @@ def read(request, id):
     return HttpResponse(HTMLTemplate(article, id))
 
 
+
+@csrf_exempt
+def delete(request):
+    global topics
+    
+    if request.method == 'POST':
+        id = request.POST["id"]
+        newTopics = []
+        for topic in topics:
+            if topic["id"] != int(id):
+                newTopics.append(topic)
+        
+        topics = newTopics
+    
+    return redirect('/')
