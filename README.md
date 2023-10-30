@@ -1,24 +1,32 @@
 # Django 환경 세팅
 
-1. 가상환경 세팅
-   `python -m venv myenv`
-2. 가상환경 활성화
-   `가상환경 경로]\Scripts\activate`
-3. 가상환경 활성화 상태에서 Django 설치
-   `pip install django`
-4. django 프로젝트 생성
-   `django-admin startproject myproject`
-5. django 프로젝트 실행
-   ```pip
+**1. 가상환경 세팅**
+  ```powershell
+  python -m venv myenv
+  ```
+**2. 가상환경 활성화**
+  ```powershell
+  [가상환경경로]\Scripts\activate
+  ```
+**3. 가상환경 활성화 상태에서 Django 설치**
+   ```powershell
+   pip install django
+   ```
+**4. django 프로젝트 생성**
+   ```
+   django-admin startproject myproject
+   ```
+**5. django 프로젝트 실행**
+   ```
    python manage.py runserver [PORT]
    // migration 에러 발생 시 다음 명령어 실행
    python manage.py migrate
    ``` 
 
 
-## 스크립트 역할
-- ⭐⭐⭐urls : path에 따라 요청을 어떻게 처리? 누가 처리할지?(routing)
-- manage : 유틸리티
+## Django 각 스크립트 역할
+- ### manage
+  유틸리티
 
 
 ## Django 앱 만들기
@@ -29,14 +37,19 @@
 
   python manage.py startapp [앱 이름] 명령어를 통해서 생성.
 
-  /* model */
+  /* ⭐⭐⭐urls.py⭐⭐⭐ */
+    👉🏻 path에 따라 요청을 어떻게 처리? 누가 처리할지?(routing)
+    
+  /* ⭐⭐⭐model⭐⭐⭐ */
+    👉🏻
 
-  /* view */
+  /* ⭐⭐⭐view⭐⭐⭐ */
+    👉🏻
   ```
 
 
 ## 라우팅?(라우팅이 반이다.)
-* '사용자가 접속한 각각의 경로를 누가 처리할 것인가' 지정하는 작업
+* **'사용자가 접속한 각각의 경로를 누가 처리할 것인가'** 지정하는 작업
   ```
   1. 프로젝트 폴더 내의 urls.py가 가장 큰 틀의 라우팅 역할
   2. 각 app으로 위임
@@ -57,7 +70,9 @@
 ## CRUD
 
 
-* csrf 에러 skip
+### ⚠️ csrf 에러란?
+
+해결법
 ```python
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
