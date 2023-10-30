@@ -1,17 +1,18 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
 import random
 
 # 동적 Web Application을 활용한 예제    
 # 위에서 선언한 topics 리스트를 가지고 list 및 a태그를 만들어준다.
-    
+
+nextID = 4
 topics = [
         { "id": 1, "title": "routing", "body" : "Routing is..." },
         { "id": 2, "title": "view", "body" : "View is..." },
         { "id": 3, "title": "model", "body" : "Model is..." },
     ]
 
-def HTMLTemplate(articleTag): 
+def HTMLTemplate(articleTag, id=None): 
     global topics
     ul = ''
     for topic in topics:
@@ -20,7 +21,7 @@ def HTMLTemplate(articleTag):
     return f'''
         <html>
             <body>
-                <h1><a href="https://docs.djangoproject.com/ko/4.2/" target="_blank">Django</a></h1>
+                <h1><a href="/">Django</a></h1>
                 <ul>
                     {ul}
                 </ul>
@@ -28,6 +29,12 @@ def HTMLTemplate(articleTag):
                 
                 <ul>
                     <li><a href="/create/">Create</a></li>
+                    <li>
+                        <form action="/delete/" method="post">
+                            <input type="hidden" name="id" value={id}>
+                            <input type="submit" value="delete">
+                        </form>
+                    </li>
                 </ul>
             </body>
         </html>
@@ -45,16 +52,49 @@ def index(request):
 
 @csrf_exempt
 def create(request):
-    article = '''
-        <form action="/create/" method="post">
-            <p><input type="text" name="title" placeholder="title"></p>
-            <p><textarea name="body" placeholder="body"></textarea></p>
-            <p><input type="submit"></p>
-        </form>
-    '''
-    return HttpResponse(HTMLTemplate(article))
+    global nextID
+    # post 방식으로 처리
+    if request.method == "GET":
+        article = '''
+            <form action="/create/" method="post">
+                <p><input type="text" name="title" placeholder="title" autocomplete="off"></p>
+                <p><textarea name="body" placeholder="body" autocomplete="off"></textarea></p>
+                <p><input type="submit"></p>
+            </form>
+        '''
+        return HttpResponse(HTMLTemplate(article))
+    
+    elif request.method == "POST":
+        # POST로 받아온 데이터를 topic 리스트에 추가
+        title = request.POST["title"]
+        body = request.POST["body"]
+        newTopic = { "id": nextID, "title": title, "body": body }
+        topics.append(newTopic)
+        url = '/read/' + str(nextID)
+        nextID += 1
+        
+        # redirect 처리하자~!!
+        return redirect(url)
+
+    
 
 def read(request, id):
-    return HttpResponse('<h1>Read ' + id + '</h1>')
+    id = int(id)
+    
+    # topics 리스트에서 id값이 일치하는 요소 검색(컴프리헨션 표현식)
+    selTopic = next((t for t in topics if t['id'] == id), None)
+    
+    if selTopic:
+        title = selTopic["title"]
+        body = selTopic["body"]
+    else:
+        title = 'Topic Not Found'
+        body = 'The requested topic was not found.'
+        
+    article = f'''
+            <p><h3>{title}</h3></p>
+            <p>{body}</p>
+        '''
+    return HttpResponse(HTMLTemplate(article, id))
 
 
