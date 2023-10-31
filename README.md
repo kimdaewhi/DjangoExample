@@ -30,21 +30,25 @@
 
 
 ## Django 앱 만들기
-* ✏️ 앱(App) 이란? 
-  ```
+* ✏️ **앱(App) 이란?** 
+
   Django 내에서 의미하는 하나의 기능 or 모듈의 단위.
-  하나의 App 안에는 urls.py, model, view라는 개념이 존재
+  Django의 단위는 크게 프로젝트 단위위 애플리케이션 단위가 있다.
 
+  하나의 App 안에는 **urls.py, model, view**라는 주요 스크립트 존재.
+  
   python manage.py startapp [앱 이름] 명령어를 통해서 생성.
-
+  
+  [애플리케이션]을 생성하게 되면 
+  ```
   /* ⭐⭐⭐urls.py⭐⭐⭐ */
-    👉🏻 path에 따라 요청을 어떻게 처리? 누가 처리할지?(routing)
+    👉🏻 path에 따라 요청을 어떻게 처리? 누가 처리할지?(라우팅)
     
   /* ⭐⭐⭐model⭐⭐⭐ */
     👉🏻
 
   /* ⭐⭐⭐view⭐⭐⭐ */
-    👉🏻
+    👉🏻 라우팅(urls.py)으로 등록된 애플리케이션의 view 함수를 통해 웹페이지 출력
   ```
 
 
@@ -58,7 +62,7 @@
   ```
 * ⭐ `path('', include('myapp.urls'))`
   - param1 : 
-  - param2 : include('[app의 이름.urls]')
+  - param2 : include('[app의 이름.urls]') 또는 import한 view의 함수
 * urls.py 복사, app에 붙여넣기
 
 
@@ -71,9 +75,12 @@
 
 
 ### ⚠️ csrf 에러란?
+**Cross-site request forgery** 공격의 약자 (자세한건 알아서...)
 
 해결법
 ```python
 from django.views.decorators.csrf import csrf_exempt
+
+# 전처리를 통해서 csrf 방식을 해제할 view 함수에 작성
 @csrf_exempt
 ```
