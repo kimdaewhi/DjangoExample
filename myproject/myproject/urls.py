@@ -26,5 +26,5 @@ from django.urls import path, include
 # ⭐여기가 라우팅과 관련된 정보⭐
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('myapp.urls')),
+    path('', include('myapp.urls')),    # myapp이라는 새로 만든 애플리케이션을 import
 ]
