@@ -16,6 +16,7 @@ def HTMLTemplate(articleTag, id=None):
     global topics
     contextUI = ''
     
+    # ID가 있을 때만 delete 버튼 visible
     if id != None:
         contextUI = f'''
             <li>
@@ -25,7 +26,8 @@ def HTMLTemplate(articleTag, id=None):
                 </form>
             </li>
         '''
-        
+    
+    # topics 리스트 개수만큼 li 태그 생성
     ul = ''
     for topic in topics:
         ul += f'<li><a href="/read/{topic["id"]}">{topic["title"]}</a></li>'
@@ -77,10 +79,12 @@ def create(request):
         body = request.POST["body"]
         newTopic = { "id": nextID, "title": title, "body": body }
         topics.append(newTopic)
+        
+        # nextID를 만들어주기 전에 새로 추가한 nextID 기반의 read url 생성, 이후에 nextID 변경
         url = '/read/' + str(nextID)
         nextID += 1
         
-        # redirect 처리하자~!!
+        # redirect 처리
         return redirect(url)
 
     
@@ -110,6 +114,7 @@ def read(request, id):
 def delete(request):
     global topics
     
+    # delete는 기존 데이터를 삭제 요청을 통해 '서버 데이터를 변경하는 것'이기 때문에 get방식이 아닌 post방식을 활용해야 함.
     if request.method == 'POST':
         id = request.POST["id"]
         newTopics = []
