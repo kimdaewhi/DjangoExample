@@ -25,6 +25,8 @@ def HTMLTemplate(articleTag, id=None):
                     <input type="submit" value="delete">
                 </form>
             </li>
+            
+            <li><a href="/update/{id}/">update</a></li>
         '''
     
     # topics 리스트 개수만큼 li 태그 생성
@@ -108,10 +110,36 @@ def read(request, id):
         '''
     return HttpResponse(HTMLTemplate(article, id))
 
-
-def update(request): 
+@csrf_exempt
+def update(request, id): 
+    global topics
+    id = int(id)
     
-    return HttpResponse('update')
+    if request.method == 'GET':    
+        # topics 리스트에서 id값이 일치하는 요소 검색(컴프리헨션 표현식)
+        selTopic = next((t for t in topics if t['id'] == id), None)
+        
+        title = selTopic["title"]
+        body = selTopic["body"]
+        # url 호출할 때 꼭 꼭 꼭 슬래시('/') 붙여서 보내주자
+        article = f'''
+            <form action="/update/{id}/" method="post">
+                <p><input type="text" name="title" placeholder="title" autocomplete="off" value={title}></p>
+                <p><textarea name="body" placeholder="body" autocomplete="off">{body}</textarea></p>
+                <p><input type="submit"></p>
+            </form>
+        '''
+        return HttpResponse(HTMLTemplate(article))
+    
+    # 수정된 내용 반영
+    elif request.method == 'POST':
+        chgTitle = request.POST["title"]
+        chgBody = request.POST["body"]
+        for topic in topics:
+            if topic["id"] == id:
+                topic["title"] = chgTitle
+                topic["body"] = chgBody
+        return redirect(f'/read/{id}/')
 
 @csrf_exempt
 def delete(request):
