@@ -14,7 +14,7 @@
    ```
 **4. django 프로젝트 생성**
    ```
-   django-admin startproject myproject
+   django-admin startproject myapp
    ```
 **5. django 프로젝트 실행**
    ```
