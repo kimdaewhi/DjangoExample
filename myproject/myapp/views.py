@@ -87,7 +87,7 @@ def create(request):
         # redirect 처리
         return redirect(url)
 
-    
+
 
 def read(request, id):
     id = int(id)
@@ -109,6 +109,9 @@ def read(request, id):
     return HttpResponse(HTMLTemplate(article, id))
 
 
+def update(request): 
+    
+    return HttpResponse('update')
 
 @csrf_exempt
 def delete(request):
